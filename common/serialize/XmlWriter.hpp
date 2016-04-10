@@ -1,0 +1,51 @@
+#pragma once
+
+namespace std {
+	
+	class XmlWriter : noncopyable
+	{
+	public:
+		template <typename __t0>
+		void runNumber(__t0& nValue, const char * nName)
+		{
+			string value_ = __convert<__t0, string>(nValue);
+			xml_attribute<char> * xmlAttribute_ =
+				mXmlDocument.allocate_attribute(nName, value_.c_str());
+			mXmlNode->append_attribute(xmlAttribute_);
+		}
+		
+		template <typename __t0>
+		void runNumbers(__t0& nValue, const char * nName)
+		{
+			string value_ = __convert<__t0, string>(nValue);
+			xml_node<char> * xmlNode_ =
+				mXmlDocument.allocate_node(node_element, nName, value_.c_str());
+			mXmlNode->append_node(xmlNode_);
+		}
+		
+		void runNumber(string& nValue, const char * nName);
+		void runNumbers(string& nValue, const char * nName);
+		
+		void runTime(int64_t& nValue, const char * nName);
+		void runTimes(int64_t& nValue, const char * nName);
+		
+		void runPush(const char * nName);
+		void runPop(const char * nName);
+		
+		void selectStream(const char * nValue);
+		
+		void saveFile(const char * nPath);
+		
+		string stringValue();
+		
+		bool isText();
+		
+		XmlWriter();
+		~XmlWriter();
+		
+	private:
+		xml_document<char> mXmlDocument;
+		xml_node<char> * mXmlNode;
+	};
+	
+}
