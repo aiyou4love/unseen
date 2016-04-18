@@ -86,7 +86,7 @@ namespace std {
 		{
 			float operator () (const char * nValue) const;
 		};
-				
+		
 		template<>
 		struct Convert<const char *, double>
 		{

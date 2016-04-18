@@ -5,16 +5,16 @@ namespace std {
 	class Instance : noncopyable
 	{
 	public:
-		template <class __t>
-		static void instance(shared_ptr<__t>& nValue)
+		template <class T>
+		static void instance(shared_ptr<T>& nValue)
 		{
-			nValue.reset(new __t());
+			nValue.reset(new T());
 		}
 		
-		template <class __t>
-		static void instance(__t *& nValue)
+		template <class T>
+		static void instance(T *& nValue)
 		{
-			nValue = new __t();
+			nValue = new T();
 		}
 	};
 
