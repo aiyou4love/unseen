@@ -57,7 +57,7 @@ namespace std {
 					this->runNumberCount(tempValue_, nName, count_);
 					count_++;
 				}
-				__t1 value_ = __default<__t1>();
+				__t1 value_ = defaultValue<__t1>();
 				for (int8_t i = count_; i < nCount; ++i) {
 					this->runNumberCount(value_, nName, i);
 				}

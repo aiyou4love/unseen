@@ -5,15 +5,15 @@ namespace std {
 	class JsonReader : noncopyable
 	{
 	public:
-		template <typename __t0>
-		void runNumber(__t0& nValue, const char * nName)
+		template <typename T>
+		void runNumber(T& nValue, const char * nName)
 		{
 			Value& value_ = (*mValue)[nName];
-			nValue = value_.Get<__t0>();
+			nValue = value_.Get<T>();
 		}
 		
-		template <typename __t0>
-		void runNumbers(__t0& nValue, const char * nName)
+		template <typename T>
+		void runNumbers(T& nValue, const char * nName)
 		{
 			LOGERROR("[%s]%s", __METHOD__, nName);
 		}

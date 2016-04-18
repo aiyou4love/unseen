@@ -17,12 +17,12 @@ namespace std {
 		{
 			if ( mArchive.isText() ) {
 				mArchive.runPush(nNames);
-				__t1 value_ = __default<__t1>();
+				__t1 value_ = defaultValue<__t1>();
 				bool result_ = mArchive.runChild(nName);
 				while ( result_ ) {
 					mArchive.runNumbers(value_, nName);
 					nValue.push_back(value_);
-					value_ = __default<__t1>();
+					value_ = defaultValue<__t1>();
 					result_ = mArchive.runNext(nName);
 				}
 				mArchive.runPop(nNames);
@@ -30,7 +30,7 @@ namespace std {
 				int16_t count_ = 0;
 				mArchive.runNumber(count_, nName);
 				for ( int16_t i = 0; i < count_; ++i ) {
-					__t1 value_ = __default<__t1>();
+					__t1 value_ = defaultValue<__t1>();
 					mArchive.runNumber(value_, nName);
 					nValue.push_back(value_);
 				}
@@ -53,17 +53,17 @@ namespace std {
 		void runNumbersCount(__t0& nValue, const char * nName, int8_t nCount)
 		{
 			if ( mArchive.isText() ) {
-				__t1 value_ = __default<__t1>();
+				__t1 value_ = defaultValue<__t1>();
 				for (int8_t i = 0; i < nCount; ++i) {
 					this->runNumberCount(value_, nName, i);
 					nValue.push_back(value_);
-					value_ = __default<__t1>();
+					value_ = defaultValue<__t1>();
 				}
 			} else {
 				int16_t count_ = 0;
 				mArchive.runNumber(count_, nName);
 				for ( int16_t i = 0; i < count_; ++i ) {
-					__t1 value_ = __default<__t1>();
+					__t1 value_ = defaultValue<__t1>();
 					mArchive.runNumber(value_, nName);
 					nValue.push_back(value_);
 				}
@@ -81,7 +81,7 @@ namespace std {
 				int16_t count_ = 0;
 				mArchive.runNumber(count_, nName);
 				for ( int16_t i = 0; i < count_; ++i ) {
-					__t1 value_ = __default<__t1>();
+					__t1 value_ = defaultValue<__t1>();
 					mArchive.runNumber(value_, nName);
 					nValue.push_back(value_);
 				}

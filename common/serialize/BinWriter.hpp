@@ -5,14 +5,14 @@ namespace std {
 	class BinWriter : noncopyable
 	{
 	public:
-		template <typename __t0>
-		void runNumber(__t0& nValue, const char * nName)
+		template <typename T>
+		void runNumber(T& nValue, const char * nName)
 		{
-			mStream.write((char *)(&nValue), sizeof(__t0));
+			mStream.write((char *)(&nValue), sizeof(T));
 		}
 		
-		template <typename __t0>
-		void runNumbers(__t0& nValue, const char * nName)
+		template <typename T>
+		void runNumbers(T& nValue, const char * nName)
 		{
 		}
 		

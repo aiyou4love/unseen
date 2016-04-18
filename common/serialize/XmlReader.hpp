@@ -5,24 +5,24 @@ namespace std {
 	class XmlReader : noncopyable
 	{
 	public:
-		template <typename __t0>
-		void runNumber(__t0& nValue, const char * nName)
+		template <typename T>
+		void runNumber(T& nValue, const char * nName)
 		{
 			xml_attribute<char> * xmlAttribute_ = 
 				mXmlNode->first_attribute(nName);
 			if (nullptr == xmlAttribute_) {
-				nValue = __default<__t0>();
+				nValue = defaultValue<T>();
 				return;
 			}
 			char * text_ = xmlAttribute_->value();
-			nValue = __convert<const char *, __t0>(text_);
+			nValue = __convert<const char *, T>(text_);
 		}
 		
-		template <typename __t0>
-		void runNumbers(__t0& nValue, const char * nName)
+		template <typename T>
+		void runNumbers(T& nValue, const char * nName)
 		{
 			char * text_ = mXmlNode->value();
-			nValue = __convert<const char *, __t0>(text_);
+			nValue = __convert<const char *, T>(text_);
 		}
 		
 		void runNumber(string& nValue, const char * nName);
