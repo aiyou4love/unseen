@@ -88,6 +88,11 @@ namespace std {
 			}
 		}
 		
+		void runBuffer(char *& nValue, int16_t nLength)
+		{
+			mArchive.readBuffer(nValue, nLength);
+		}
+		
 		void runCrc32(int32_t& nValue, const char * nName)
 		{
 			if ( mArchive.isText() ) {

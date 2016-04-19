@@ -29,6 +29,11 @@ namespace std {
 		nValue = localTime_.numberTime();
 	}
 	
+	void JsonReader::runBuffer(char *& nValue, int16_t nLength)
+	{
+		LOGERROR("[%s]%d", __METHOD__, nLength);
+	}
+	
 	void JsonReader::runPush(const char * nName)
 	{
 		mValues.push(mValue);

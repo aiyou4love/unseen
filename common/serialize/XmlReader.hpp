@@ -31,6 +31,8 @@ namespace std {
 		void runTime(int64_t& nValue, const char * nName);
 		void runTimes(int64_t& nValue, const char * nName);
 		
+		void runBuffer(char *& nValue, int16_t nLength);
+		
 		void runPush(const char * nName);
 		bool runChild(const char * nName);
 		bool runNext(const char * nName);

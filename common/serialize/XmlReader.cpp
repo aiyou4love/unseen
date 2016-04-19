@@ -33,6 +33,11 @@ namespace std {
 		nValue = localTime_.numberTime();
 	}
 	
+	void XmlReader::runBuffer(char *& nValue, int16_t nLength)
+	{
+		LOGERROR("[%s]%d", __METHOD__, nLength);
+	}
+	
 	void XmlReader::runPush(const char * nName)
 	{
 		mXmlNodes.push(mXmlNode);

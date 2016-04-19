@@ -14,13 +14,15 @@ namespace std {
 		template <typename T>
 		void runNumbers(T& nValue, const char * nName)
 		{
+			LOGERROR("[%s]%s", __METHOD__, nName);
 		}
 		
 		void runNumber(string& nValue, const char * nName);
-		void runNumbers(string& nValue, const char * nName);
 		
 		void runTime(int64_t& nValue, const char * nName);
 		void runTimes(int64_t& nValue, const char * nName);
+		
+		void runBuffer(char *& nValue, int16_t nLength);
 		
 		void runPush(const char * nName);
 		bool runChild(const char * nName);

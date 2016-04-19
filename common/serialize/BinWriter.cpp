@@ -9,11 +9,6 @@ namespace std {
 		mStream.write((char *)(&nValue[0]), count_);
 	}
 	
-	void BinWriter::runNumbers(string& nValue, const char * nName)
-	{
-		this->runNumber(nValue, nName);
-	}
-	
 	void BinWriter::runTime(int64_t& nValue, const char * nName)
 	{
 		this->runNumber(nValue, nName);
@@ -21,15 +16,22 @@ namespace std {
 	
 	void BinWriter::runTimes(int64_t& nValue, const char * nName)
 	{
-		this->runNumber(nValue, nName);
+		LOGERROR("[%s]%s", __METHOD__, nName);
+	}
+	
+	void BinWriter::runBuffer(char *& nValue, int16_t nLength)
+	{
+		mStream.write(((char *)nValue), nLength);
 	}
 	
 	void BinWriter::runPush(const char * nName)
 	{
+		LOGERROR("[%s]%s", __METHOD__, nName);
 	}
 	
 	void BinWriter::runPop(const char * nName)
 	{
+		LOGERROR("[%s]%s", __METHOD__, nName);
 	}
 	
 	void BinWriter::selectStream(const char * nValue)

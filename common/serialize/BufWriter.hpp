@@ -2,23 +2,27 @@
 
 namespace std {
 	
-	class JsonWriter : noncopyable
+	class BufWriter : noncopyable
 	{
 	public:
 		template <typename T>
 		void runNumber(T& nValue, const char * nName)
 		{
-			mValue->AddMember(nName, nValue, mDocument.GetAllocator());
+			if ((mLength + sizeof(int16_t)+sizeof(T)) > PACKETSIZE) {
+				LOGERROR("[%s]%s", __METHOD__, nName);
+				return;
+			}
+			memcpy((mBuffer + mLength + sizeof(int16_t)), &nValue, sizeof(T));
+			mLength += sizeof(T);
 		}
 		
 		template <typename T>
 		void runNumbers(T& nValue, const char * nName)
 		{
-			mValue->PushBack(nValue, mDocument.GetAllocator());
+			LOGERROR("[%s]%s", __METHOD__, nName);
 		}
-		
+				
 		void runNumber(string& nValue, const char * nName);
-		void runNumbers(string& nValue, const char * nName);
 		
 		void runTime(int64_t& nValue, const char * nName);
 		void runTimes(int64_t& nValue, const char * nName);
@@ -30,19 +34,19 @@ namespace std {
 		
 		void selectStream(const char * nValue);
 		
-		void saveFile(const char * nPath);
-		
-		string stringValue();
+		int16_t getSize();
+		char * getValue();
+		void runClear();
+		void runEnd();
 		
 		bool isText();
 		
-		JsonWriter();
-		~JsonWriter();
+		BufWriter();
+		~BufWriter();
 		
 	private:
-		stack<rapidjson::Value *> mValues;
-		rapidjson::Document mDocument;
-		rapidjson::Value * mValue;
+		char mBuffer[PACKETSIZE];
+		int16_t mLength;
 	};
 	
 }

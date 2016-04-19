@@ -30,6 +30,11 @@ namespace std {
 		this->runNumbers(value_, nName);
 	}
 	
+	void XmlWriter::runBuffer(char *& nValue, int16_t nLength)
+	{
+		LOGERROR("[%s]%d", __METHOD__, nLength);
+	}
+	
 	void XmlWriter::runPush(const char * nName)
 	{
 		xml_node<char> * xmlNode_ =

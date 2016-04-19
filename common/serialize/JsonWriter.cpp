@@ -26,6 +26,11 @@ namespace std {
 		this->runNumbers(value_, nName);
 	}
 	
+	void JsonWriter::runBuffer(char *& nValue, int16_t nLength)
+	{
+		LOGERROR("[%s]%d", __METHOD__, nLength);
+	}
+	
 	void JsonWriter::runPush(const char * nName)
 	{
 		mValues.push(mValue);

@@ -26,6 +26,11 @@ namespace std {
 		LOGERROR("[%s]%s", __METHOD__, nName);
 	}
 	
+	void TableReader::runBuffer(char *& nValue, int16_t nLength)
+	{
+		LOGERROR("[%s]%d", __METHOD__, nLength);
+	}
+	
 	void TableReader::runPush(const char * nName)
 	{
 		mValues.push(mValue);

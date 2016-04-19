@@ -2,14 +2,25 @@
 
 namespace std {
 	
-	class TableReader : noncopyable
+	enum class EpushBuf : int8_t
+	{
+		mError = 0,
+		mLength = 1,
+		mFinish = 2
+	};
+	class BufReader : noncopyable
 	{
 	public:
 		template <typename T>
 		void runNumber(T& nValue, const char * nName)
 		{
-			Value& value_ = (*mValue)[nName];
-			nValue = value_.Get<T>();
+			int16_t size_ = int16_t(sizeof(nValue));
+			const char * buffer = this->getBuffer(size_);
+			if (nullptr == buffer) {
+				LOGERROR("[%s]%s", __METHOD__, nName);
+				return;
+			}
+			nValue = *(T *)(buffer);
 		}
 		
 		template <typename T>
@@ -19,7 +30,6 @@ namespace std {
 		}
 		
 		void runNumber(string& nValue, const char * nName);
-		void runNumbers(string& nValue, const char * nName);
 		
 		void runTime(int64_t& nValue, const char * nName);
 		void runTimes(int64_t& nValue, const char * nName);
@@ -27,7 +37,7 @@ namespace std {
 		void runBuffer(char *& nValue, int16_t nLength);
 		
 		void runPush(const char * nName);
-		bool readChild(const char * nName);
+		bool runChild(const char * nName);
 		bool runNext(const char * nName);
 		void runPop(const char * nName);
 		
@@ -36,21 +46,25 @@ namespace std {
 		
 		void selectStream(const char * nValue);
 		
-		void loadFile(const char * nPath);
+		EpushBuf pushBuf(char * nBuffer, int16_t nSize);
+		const char * getBuffer(int16_t nSize);
+		void finishBuf();
 		
-		void stringValue(const char * nValue);
+		void runClear();
 		
 		bool isText();
 		
-		TableReader();
-		~TableReader();
+		BufReader();
+		~BufReader();
 		
 	private:
-		stack<rapidjson::Value *> mValues;
-		rapidjson::Document mDocument;
-		rapidjson::Value * mValue;
-		int16_t mIndex;
-		int16_t mMax;
+		int16_t mPackageSize;
+		char mValue[PACKETSIZE];
+		int16_t mLeft;
+		char * mBuffer;
+		int16_t mSize;
+		int16_t mLength;
+		int16_t mPos;
 	};
 	
 }

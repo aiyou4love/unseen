@@ -10,11 +10,6 @@ namespace std {
 		mStream.read((char *)(&nValue[0]), count_);
 	}
 	
-	void BinReader::runNumbers(string& nValue, const char * nName)
-	{
-		this->runNumber(nValue, nName);
-	}
-	
 	void BinReader::runTime(int64_t& nValue, const char * nName)
 	{
 		this->runNumber(nValue, nName);
@@ -22,33 +17,46 @@ namespace std {
 	
 	void BinReader::runTimes(int64_t& nValue, const char * nName)
 	{
-		this->runNumber(nValue, nName);
+		LOGERROR("[%s]%s", __METHOD__, nName);
+	}
+	
+	void BinReader::runBuffer(char *& nValue, int16_t nLength)
+	{
+		nValue = new char[nLength];
+		memset(nValue, 0, nLength);
+		mStream.read((char *)(&nValue), nLength);
 	}
 	
 	void BinReader::runPush(const char * nName)
 	{
+		LOGERROR("[%s]%s", __METHOD__, nName);
 	}
 	
 	bool BinReader::runChild(const char * nName)
 	{
+		LOGERROR("[%s]%s", __METHOD__, nName);
 		return false;
 	}
 	
 	bool BinReader::runNext(const char * nName)
 	{
+		LOGERROR("[%s]%s", __METHOD__, nName);
 		return false;
 	}
 	
 	void BinReader::runPop(const char * nName)
 	{
+		LOGERROR("[%s]%s", __METHOD__, nName);
 	}
 	
 	void BinReader::pushClass(const char * nName)
 	{
+		LOGERROR("[%s]%s", __METHOD__, nName);
 	}
 	
 	void BinReader::popClass(const char * nName)
 	{
+		LOGERROR("[%s]%s", __METHOD__, nName);
 	}
 	
 	void BinReader::selectStream(const char * nValue)
