@@ -15,14 +15,14 @@ namespace std {
 				return;
 			}
 			char * text_ = xmlAttribute_->value();
-			nValue = __convert<const char *, T>(text_);
+			nValue = convertValue<const char *, T>(text_);
 		}
 		
 		template <typename T>
 		void runNumbers(T& nValue, const char * nName)
 		{
 			char * text_ = mXmlNode->value();
-			nValue = __convert<const char *, T>(text_);
+			nValue = convertValue<const char *, T>(text_);
 		}
 		
 		void runNumber(string& nValue, const char * nName);

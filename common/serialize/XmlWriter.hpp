@@ -8,7 +8,7 @@ namespace std {
 		template <typename T>
 		void runNumber(T& nValue, const char * nName)
 		{
-			string value_ = __convert<T, string>(nValue);
+			string value_ = convertValue<T, string>(nValue);
 			xml_attribute<char> * xmlAttribute_ =
 				mXmlDocument.allocate_attribute(nName, value_.c_str());
 			mXmlNode->append_attribute(xmlAttribute_);
@@ -17,7 +17,7 @@ namespace std {
 		template <typename T>
 		void runNumbers(T& nValue, const char * nName)
 		{
-			string value_ = __convert<T, string>(nValue);
+			string value_ = convertValue<T, string>(nValue);
 			xml_node<char> * xmlNode_ =
 				mXmlDocument.allocate_node(node_element, nName, value_.c_str());
 			mXmlNode->append_node(xmlNode_);

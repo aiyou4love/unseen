@@ -9,102 +9,102 @@ namespace std {
 	extern double strToDouble(const char * nValue);
 	extern string doubleToStr(double nValue);
 	
-	namespace convert_namespace {
+	namespace convert_value {
 		
-		template<typename __t1, typename __t2>
-		struct Convert
+		template<typename T1, typename T2>
+		struct ConvertValue
 		{
-			__t2 operator () (__t1 nValue) const
+			T2 operator () (T1 nValue) const
 			{
-				return static_cast<__t1>(nValue);
+				return static_cast<T1>(nValue);
 			}
 		};
 		
-		template<typename __t1>
-		struct Convert<__t1, string>
+		template<typename T1>
+		struct ConvertValue<T1, string>
 		{
-			string operator () (__t1 nValue) const
+			string operator () (T1 nValue) const
 			{
 				return int32ToStr(nValue);
 			}
 		};
 		
 		template<>
-		struct Convert<int64_t, string>
+		struct ConvertValue<int64_t, string>
 		{
 			string operator () (int64_t nValue) const;
 		};
 		
 		template<>
-		struct Convert<float, bool>
+		struct ConvertValue<float, bool>
 		{
 			bool operator () (float nValue) const;
 		};
 		
 		template<>
-		struct Convert<float, string>
+		struct ConvertValue<float, string>
 		{
 			string operator () (float nValue) const;
 		};
 		
 		template<>
-		struct Convert<double, bool>
+		struct ConvertValue<double, bool>
 		{
 			bool operator () (double nValue) const;
 		};
 		
 		template<>
-		struct Convert<double, string>
+		struct ConvertValue<double, string>
 		{
 			string operator () (double nValue) const;
 		};
 		
-		template<typename __t2>
-		struct Convert<const char *, __t2>
+		template<typename T2>
+		struct ConvertValue<const char *, T2>
 		{
-			__t2 operator () (const char * nValue) const
+			T2 operator () (const char * nValue) const
 			{
 				int32_t value_ = strToInt32(nValue);
-				return static_cast<__t2>(value_);
+				return static_cast<T2>(value_);
 			}
 		};
 
 		template<>
-		struct Convert<const char *, bool>
+		struct ConvertValue<const char *, bool>
 		{
 			bool operator () (const char * nValue) const;
 		};
 		
 		template<>
-		struct Convert<const char *, int64_t>
+		struct ConvertValue<const char *, int64_t>
 		{
 			int64_t operator () (const char * nValue) const;
 		};
 		
 		template<>
-		struct Convert<const char *, float>
+		struct ConvertValue<const char *, float>
 		{
 			float operator () (const char * nValue) const;
 		};
 		
 		template<>
-		struct Convert<const char *, double>
+		struct ConvertValue<const char *, double>
 		{
 			double operator () (const char * nValue) const;
 		};
 		
 		template<>
-		struct Convert<const char *, string>
+		struct ConvertValue<const char *, string>
 		{
 			string operator () (const char * nValue) const;
 		};
 		
 	}
 	
-	template<typename __t1, typename __t2>
-	__t2 __convert(__t1 nValue)
+	template<typename T1, typename T2>
+	T2 convertValue(T1 nValue)
 	{
-		return convert_namespace::Convert<__t1, __t2>()(nValue);
+		return convert_value::ConvertValue<T1, T2>()(nValue);
 	}
 	
 }

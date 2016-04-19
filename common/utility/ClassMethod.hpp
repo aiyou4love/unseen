@@ -2,26 +2,32 @@
 
 namespace std {
 	
-	extern int32_t __hash32(const char * nValue, int32_t nLength);
+	extern int32_t crc32Value(const char * nValue, int32_t nLength);
 	
-	extern int32_t __stringid(const char * nValue);
+	extern int32_t crc32String(const char * nValue);
 	
-	extern int32_t __formatclass(const char * nValue, string& nName);
-	
-	extern int32_t __formatclassid(const char * nValue);
-	
-	template<typename __t>
-	int32_t __classid()
+	struct SclassInfo
 	{
-		const char * className_ = typeid(__t).name();
-		return __formatclassid(className_);
+		int32_t mClassId;
+		string mClassName;
+	};
+	
+	extern void formatClass(const char * nValue, SclassInfo& nName);
+	
+	extern int32_t formatClassId(const char * nValue);
+	
+	template<typename T>
+	void classInfo(SclassInfo& nClassInfo)
+	{
+		const char * className_ = typeid(T).name();
+		formatClass(className_, nClassInfo);
 	}
 	
-	template<typename __t>
-	int32_t __classinfo(string& nClassName)
+	template<typename T>
+	int32_t crc32Class()
 	{
-		const char * className_ = typeid(__t).name();
-		return __formatclass(className_, nClassName);
+		const char * className_ = typeid(T).name();
+		return formatClassId(className_);
 	}
 	
 }

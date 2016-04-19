@@ -2,24 +2,24 @@
 
 namespace std {
 	
-	template <class __t>
+	template <class A>
 	class IoWriter : noncopyable
 	{
 	public:
-		template <typename __t0>
-		void runNumber(__t0& nValue, const char * nName)
+		template <typename T>
+		void runNumber(T& nValue, const char * nName)
 		{
 			mArchive.runNumber(nValue, nName);
 		}
 		
-		template <typename __t0, typename __t1>
-		void runNumbers(__t0& nValue, const char * nNames, const char * nName)
+		template <typename T0, typename T1>
+		void runNumbers(T0& nValue, const char * nNames, const char * nName)
 		{
 			if ( mArchive.isText() ) {
 				mArchive.runPush(nNames);
 				auto it = nValue.begin();
 				for ( ; it != nValue.end(); ++it ) {
-					__t1& value_ = (*it);
+					T1& value_ = (*it);
 					mArchive.runNumbers(value_, nName);
 				}
 				mArchive.runPop(nNames);
@@ -28,36 +28,36 @@ namespace std {
 				mArchive.runNumber(count_, nName);
 				auto it = nValue.begin();
 				for ( ; it != nValue.end(); ++it ) {
-					__t1& value_ = (*it);
+					T1& value_ = (*it);
 					mArchive.runNumber(value_, nName);
 				}
 			}
 		}
 		
-		template <typename __t0>
-		void runNumberCount(__t0& nValue, const char * nName, int8_t nCount)
+		template <typename T>
+		void runNumberCount(T& nValue, const char * nName, int8_t nCount)
 		{
 			if ( mArchive.isText() ) {
 				string name_ = nName; name_ += "_";
-				name_.append(__convert<int32_t, string>(nCount));
+				name_.append(convertValue<int32_t, string>(nCount));
 				mArchive.runNumber(nValue, name_.c_str());
 			} else {
 				mArchive.runNumber(nValue, nName);
 			}
 		}
 		
-		template <typename __t0, typename __t1>
-		void runNumbersCount(__t0& nValue, const char * nName, int8_t nCount)
+		template <typename T0, typename T1>
+		void runNumbersCount(T0& nValue, const char * nName, int8_t nCount)
 		{
 			if ( mArchive.isText() ) {
 				int8_t count_ = 0;
 				auto it = nValue.begin();
 				for ( ; it != nValue.end(); ++it ) {
-					__t1 tempValue_ = (*it);
+					T1 tempValue_ = (*it);
 					this->runNumberCount(tempValue_, nName, count_);
 					count_++;
 				}
-				__t1 value_ = defaultValue<__t1>();
+				T1 value_ = defaultValue<T1>();
 				for (int8_t i = count_; i < nCount; ++i) {
 					this->runNumberCount(value_, nName, i);
 				}
@@ -66,24 +66,24 @@ namespace std {
 				mArchive.runNumber(count_, nName);
 				auto it = nValue.begin();
 				for ( ; it != nValue.end(); ++it ) {
-					__t1& value_ = (*it);
+					T1& value_ = (*it);
 					mArchive.runNumber(value_, nName);
 				}
 			}
 		}
 		
-		template <typename __t0, typename __t1>
-		void runNumberSemi(__t0& nValue, const char * nName)
+		template <typename T0, typename T1>
+		void runNumberSemi(T0& nValue, const char * nName)
 		{
 			if ( mArchive.isText() ) {
-				string value_ = stringCombine<__t0, __t1>(nValue, ":");
+				string value_ = stringCombine<T0, T1>(nValue, ":");
 				mArchive.runNumber(value_, nName);
 			} else {
 				int16_t count_ = (int16_t)(nValue.size());
 				mArchive.runNumber(count_, nName);
 				auto it = nValue.begin();
 				for ( ; it != nValue.end(); ++it ) {
-					__t1& value_ = (*it);
+					T1& value_ = (*it);
 					mArchive.runNumber(value_, nName);
 				}
 			}
@@ -98,8 +98,8 @@ namespace std {
 			}
 		}
 		
-		template <typename __t0>
-		void runCrc32s(__t0& nValue, const char * nNames, const char * nName)
+		template <typename T>
+		void runCrc32s(T& nValue, const char * nNames, const char * nName)
 		{
 			if ( mArchive.isText() ) {
 				LOGERROR("[%s]%s,%s", __METHOD__, nNames, nName);
@@ -123,8 +123,8 @@ namespace std {
 			}
 		}
 		
-		template <typename __t0>
-		void runCrc32sCount(__t0& nValue, const char * nName, int8_t nCount)
+		template <typename T>
+		void runCrc32sCount(T& nValue, const char * nName, int8_t nCount)
 		{
 			if ( mArchive.isText() ) {
 				LOGERROR("[%s]%s,%d", __METHOD__, nName, nCount);
@@ -139,8 +139,8 @@ namespace std {
 			}
 		}
 		
-		template <typename __t0>
-		void runCrc32Semi(__t0& nValue, const char * nName)
+		template <typename T>
+		void runCrc32Semi(T& nValue, const char * nName)
 		{
 			if ( mArchive.isText() ) {
 				LOGERROR("[%s]%s", __METHOD__, nName);
@@ -160,8 +160,8 @@ namespace std {
 			mArchive.runTime(nValue, nName);
 		}
 		
-		template <typename __t0>
-		void runTimes(__t0& nValue, const char * nNames, const char * nName)
+		template <typename T>
+		void runTimes(T& nValue, const char * nNames, const char * nName)
 		{
 			if ( mArchive.isText() ) {
 				mArchive.runPush(nNames);
@@ -186,15 +186,15 @@ namespace std {
 		{
 			if ( mArchive.isText() ) {
 				string name_ = nName; name_ += "_";
-				name_.append(__convert<int32_t, string>(nCount));
+				name_.append(convertValue<int32_t, string>(nCount));
 				mArchive.runTime(nValue, name_.c_str());
 			} else {
 				mArchive.runTime(nValue, nName);
 			}
 		}
 		
-		template <typename __t0>
-		void runTimesCount(__t0& nValue, const char * nName, int8_t nCount)
+		template <typename T>
+		void runTimesCount(T& nValue, const char * nName, int8_t nCount)
 		{
 			if ( mArchive.isText() ) {
 				int8_t count_ = 0;
@@ -219,8 +219,8 @@ namespace std {
 			}
 		}
 		
-		template <typename __t0>
-		void runTimeSemi(__t0& nValue, const char * nName)
+		template <typename T>
+		void runTimeSemi(T& nValue, const char * nName)
 		{
 			if ( mArchive.isText() ) {
 				LOGERROR("[%s]%s", __METHOD__, nName);
@@ -235,8 +235,8 @@ namespace std {
 			}
 		}
 		
-		template<typename __t0>
-		void runStream(__t0& nValue, const char * nName)
+		template<typename T>
+		void runStream(T& nValue, const char * nName)
 		{
 			if ( mArchive.isText() ) {
 				mArchive.runPush(nName);
@@ -247,8 +247,8 @@ namespace std {
 			}
 		}
 		
-		template<typename __t0>
-		void runStreamPtr(__t0& nValue, const char * nName)
+		template<typename T>
+		void runStreamPtr(T& nValue, const char * nName)
 		{
 			if ( mArchive.isText() ) {
 				mArchive.runPush(nName);
@@ -259,14 +259,14 @@ namespace std {
 			}
 		}
 		
-		template<typename __t0, typename __t1>
-		void runStreams(__t0& nValue, const char * nNames, const char * nName)
+		template<typename T0, typename T1>
+		void runStreams(T0& nValue, const char * nNames, const char * nName)
 		{
 			if ( mArchive.isText() ) {
 				mArchive.runPush(nNames);
 				auto it = nValue.begin();
 				for ( ; it != nValue.end(); ++it ) {
-					__t1& value_ = (*it);
+					T1& value_ = (*it);
 					this->runStream(value_, nName);
 				}
 				mArchive.runPop(nNames);
@@ -275,20 +275,20 @@ namespace std {
 				mArchive.runNumber(count_, nName);
 				auto it = nValue.begin();
 				for ( ; it != nValue.end(); ++it ) {
-					__t1& value_ = (*it);
+					T1& value_ = (*it);
 					value_.serialize(this, 0);
 				}
 			}
 		}
 		
-		template<typename __t0, typename __t1>
-		void runStreamPtrs(__t0& nValue, const char * nNames, const char * nName)
+		template<typename T0, typename T1>
+		void runStreamPtrs(T0& nValue, const char * nNames, const char * nName)
 		{
 			if ( mArchive.isText() ) {
 				mArchive.runPush(nNames);
 				auto it = nValue.begin();
 				for ( ; it != nValue.end(); ++it ) {
-					__t1& value_ = (*it);
+					T1& value_ = (*it);
 					this->runStreamPtr(value_, nName);
 				}
 				mArchive.runPop(nNames);
@@ -297,20 +297,20 @@ namespace std {
 				mArchive.runNumber(count_, nName);
 				auto it = nValue.begin();
 				for ( ; it != nValue.end(); ++it ) {
-					__t1& value_ = (*it);
+					T1& value_ = (*it);
 					value_->serialize(this, 0);
 				}
 			}
 		}
 		
-		template<typename __t0, typename __t1>
-		void runMapStreams(map<__t0, __t1>& nValue, const char * nNames, const char * nName)
+		template<typename T0, typename T1>
+		void runMapStreams(map<T0, T1>& nValue, const char * nNames, const char * nName)
 		{
 			if ( mArchive.isText() ) {
 				mArchive.runPush(nNames);
 				auto it = nValue.begin();
 				for ( ; it != nValue.end(); ++it ) {
-					__t1& value_ = it->second;
+					T1& value_ = it->second;
 					this->runStream(value_, nName);
 				}
 				mArchive.runPop(nNames);
@@ -319,20 +319,20 @@ namespace std {
 				mArchive.runNumber(count_, nName);
 				auto it = nValue.begin();
 				for ( ; it != nValue.end(); ++it ) {
-					__t1& value_ = it->second;
+					T1& value_ = it->second;
 					value_.serialize(this, 0);
 				}
 			}
 		}
 		
-		template<typename __t0, typename __t1>
-		void runMapStreamPtrs(map<__t0, __t1>& nValue, const char * nNames, const char * nName)
+		template<typename T0, typename T1>
+		void runMapStreamPtrs(map<T0, T1>& nValue, const char * nNames, const char * nName)
 		{
 			if ( mArchive.isText() ) {
 				mArchive.runPush(nNames);
 				auto it = nValue.begin();
 				for ( ; it != nValue.end(); ++it ) {
-					__t1& value_ = it->second;
+					T1& value_ = it->second;
 					this->runStreamPtr(value_, nName);
 				}
 				mArchive.runPop(nNames);
@@ -341,18 +341,18 @@ namespace std {
 				mArchive.runNumber(count_, nName);
 				auto it = nValue.begin();
 				for ( ; it != nValue.end(); ++it ) {
-					__t1& value_ = it->second;
+					T1& value_ = it->second;
 					value_->serialize(this, 0);
 				}
 			}
 		}
 		
-		template<typename __t0>
-		void runStreamCount(__t0& nValue, const char * nName, int8_t nCount)
+		template<typename T>
+		void runStreamCount(T& nValue, const char * nName, int8_t nCount)
 		{
 			if ( mArchive.isText() ) {
 				string name_ = nName; name_ += "_";
-				name_.append(__convert<int32_t, string>(nCount));
+				name_.append(convertValue<int32_t, string>(nCount));
 				mArchive.runPush(name_.c_str());
 				nValue.serialize(this, nCount);
 				mArchive.runPop(name_.c_str());
@@ -361,12 +361,12 @@ namespace std {
 			}
 		}
 		
-		template<typename __t0>
-		void runStreamPtrCount(__t0& nValue, const char * nName, int8_t nCount)
+		template<typename T>
+		void runStreamPtrCount(T& nValue, const char * nName, int8_t nCount)
 		{
 			if ( mArchive.isText() ) {
 				string name_ = nName; name_ += "_";
-				name_.append(__convert<int32_t, string>(nCount));
+				name_.append(convertValue<int32_t, string>(nCount));
 				mArchive.runPush(name_.c_str());
 				nValue->serialize(this, nCount);
 				mArchive.runPop(name_.c_str());
@@ -375,19 +375,19 @@ namespace std {
 			}
 		}
 		
-		template<typename __t0, typename __t1>
-		void runStreamsCount(__t0& nValue, const char * nNames, const char * nName, int8_t nCount)
+		template<typename T0, typename T1>
+		void runStreamsCount(T0& nValue, const char * nNames, const char * nName, int8_t nCount)
 		{
 			if ( mArchive.isText() ) {
 				mArchive.runPush(nNames);
 				int8_t count_ = 0;
 				auto it = nValue.begin();
 				for ( ; it != nValue.end(); ++it ) {
-					__t1& value_ = (*it);
+					T1& value_ = (*it);
 					this->runStreamCount(value_, nName, count_);
 					count_++;
 				}
-				 __t1 value_;
+				 T1 value_;
 				for (int8_t i = count_; i < nCount; ++i) {
 					this->runStreamCount(value_, nName, i);
 				}
@@ -397,25 +397,25 @@ namespace std {
 				mArchive.runNumber(count_, nName);
 				auto it = nValue.begin();
 				for ( ; it != nValue.end(); ++it ) {
-					__t1& value_ = (*it);
+					T1& value_ = (*it);
 					value_.serialize(this, 0);
 				}
 			}
 		}
 		
-		template<typename __t0, typename __t1>
-		void runStreamPtrsCount(__t0& nValue, const char * nNames, const char * nName, int8_t nCount)
+		template<typename T0, typename T1>
+		void runStreamPtrsCount(T0& nValue, const char * nNames, const char * nName, int8_t nCount)
 		{
 			if ( mArchive.isText() ) {
 				mArchive.runPush(nNames);
 				int8_t count_ = 0;
 				auto it = nValue.begin();
 				for ( ; it != nValue.end(); ++it ) {
-					__t0& value_ = (*it);
+					T0& value_ = (*it);
 					this->runStreamPtrCount(value_ nName, count_);
 					count_++;
 				}
-				__t1 value_ = nullptr;
+				T1 value_ = nullptr;
 				Instance::instance(value_);
 				for (int8_t i = count_; i < nCount; ++i) {
 					this->runStreamPtrCount(value_, nName, i);
@@ -426,25 +426,25 @@ namespace std {
 				mArchive.runNumber(count_, nName);
 				auto it = nValue.begin();
 				for ( ; it != nValue.end(); ++it ) {
-					__t1& value_ = (*it);
+					T1& value_ = (*it);
 					value_->serialize(this, 0);
 				}
 			}
 		}
 		
-		template<typename __t0, typename __t1>
-		void runMapStreamsCount(map<__t0, __t1>& nValue, const char * nNames, const char * nName, int8_t nCount)
+		template<typename T0, typename T1>
+		void runMapStreamsCount(map<T0, T1>& nValue, const char * nNames, const char * nName, int8_t nCount)
 		{
 			if ( mArchive.isText() ) {
 				mArchive.runPush(nNames);
 				int8_t count_ = 0;
 				auto it = nValue.begin();
 				for ( ; it != nValue.end(); ++it ) {
-					__t1& value_ = it->second;
+					T1& value_ = it->second;
 					this->runStreamCount(value_, nName, count_);
 					count_++;
 				}
-				 __t1 value_;
+				 T1 value_;
 				for (int8_t i = count_; i < nCount; ++i) {
 					this->runStreamCount(value_, nName, i);
 				}
@@ -454,25 +454,25 @@ namespace std {
 				mArchive.runNumber(count_, nName);
 				auto it = nValue.begin();
 				for ( ; it != nValue.end(); ++it ) {
-					__t1& value_ = it->second;
+					T1& value_ = it->second;
 					value_.serialize(this, 0);
 				}
 			}
 		}
 		
-		template<typename __t0, typename __t1>
-		void runMapStreamPtrsCount(map<__t0, __t1>& nValue, const char * nNames, const char * nName, int8_t nCount)
+		template<typename T0, typename T1>
+		void runMapStreamPtrsCount(map<T0, T1>& nValue, const char * nNames, const char * nName, int8_t nCount)
 		{
 			if ( mArchive.isText() ) {
 				mArchive.runPush(nNames);
 				int8_t count_ = 0;
 				auto it = nValue.begin();
 				for ( ; it != nValue.end(); ++it ) {
-					__t1& value_ = it->second;
+					T1& value_ = it->second;
 					this->runStreamPtrCount(value_, nName, count_);
 					count_++;
 				}
-				__t1 value_ = nullptr;
+				T1 value_ = nullptr;
 				Instance::instance(value_);
 				for (int8_t i = count_; i < nCount; ++i) {
 					this->runStreamPtrCount(value_, nName, i);
@@ -483,19 +483,19 @@ namespace std {
 				mArchive.runNumber(count_, nName);
 				auto it = nValue.begin();
 				for ( ; it != nValue.end(); ++it ) {
-					__t1& value_ = it->second;
+					T1& value_ = it->second;
 					value_->serialize(this, 0);
 				}
 			}
 		}
 		
-		template<typename __t>
-		void selectStream(__t& nStream)
+		template<typename T>
+		void selectStream(T& nStream)
 		{
 			mArchive.selectStream(nStream->streamName());
 		}
 		
-		IoWriter(__t& nArchive)			: mArchive(nArchive)
+		IoWriter(A& nArchive)			: mArchive(nArchive)
 		{
 		}
 		
@@ -504,7 +504,7 @@ namespace std {
 		}
 		
 	private:
-		__t mArchive;
+		A mArchive;
 	};
 	
 }

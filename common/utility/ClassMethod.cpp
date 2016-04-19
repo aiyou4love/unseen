@@ -9,41 +9,39 @@
 
 namespace std {
 	
-	int32_t __hash32(const char * nValue, int32_t nLength)
+	int32_t crc32Value(const char * nValue, int32_t nLength)
 	{
 		crc_32_type crc32_;
 		crc32_.process_bytes(nValue, nLength);
 		return crc32_();
 	}
 	
-	int32_t __stringid(const char * nValue)
+	int32_t crc32String(const char * nValue)
 	{
-		return __hash32(nValue, (int32_t)(strlen(nValue)));
+		return crc32Value(nValue, (int32_t)(strlen(nValue)));
 	}
 	
-	int32_t __formatclass(const char * nValue, string& nName)
+	void formatClass(const char * nValue, SclassInfo& nClassInfo)
 	{
-		int32_t result_ = 0;
 	#ifdef __WINDOW__
-		nName = nValue + 6;
-		result_ = __stringid(nValue + 6);
+		nClassInfo.mClassId = crc32String(nValue + 6);
+		nClassInfo.mClassName = nValue + 6;
 	#else
 		char * realName_ = abi::__cxa_demangle(nValue, 0, 0, 0);
-		result_ = __stringid(realName_);
-		nName = realName_;
+		nClassInfo.mClassId = crc32String(realName_);
+		nClassInfo.mClassName = realName_;
 		::free(realName_);
 	#endif
-		return result_;
 	}
 	
-	int32_t __formatclassid(const char * nValue)
+	int32_t formatClassId(const char * nValue)
 	{
 		int32_t result_ = 0;
 	#ifdef __WINDOW__
-		result_ = __stringid(nValue + 6);
+		result_ = crc32String(nValue + 6);
 	#else
 		char * realName_ = abi::__cxa_demangle(nValue, 0, 0, 0);
-		result_ = __stringid(realName_);
+		result_ = crc32String(realName_);
 		::free(realName_);
 	#endif
 		return result_;
