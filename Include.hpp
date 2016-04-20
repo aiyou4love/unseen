@@ -59,9 +59,9 @@ using namespace boost;
 
 #include "common/log/LogEngine.hpp"
 
-#include "common/utility/ConvertMethod.hpp"
+#include "common/utility/ConvertValue.hpp"
 #include "common/utility/StringMethod.hpp"
-#include "common/utility/Default.hpp"
+#include "common/utility/DefaultValue.hpp"
 #include "common/utility/ClassMethod.hpp"
 #include "common/utility/Instance.hpp"
 
