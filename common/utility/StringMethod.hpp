@@ -1,6 +1,6 @@
 #pragma once
 
-namespace std {
+namespace cc {
 	
 	template<typename T1, typename T2>
 	void stringSplit(const char * nValue, T1& nResult, const char * nSplit)

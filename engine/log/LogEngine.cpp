@@ -1,6 +1,6 @@
 #include "../../Include.hpp"
 
-namespace std {
+namespace cc {
 	
 	void LogEngine::logError(const char * nValue, ...)
 	{

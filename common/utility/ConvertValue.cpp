@@ -1,6 +1,6 @@
 #include "../../Include.hpp"
 
-namespace std {
+namespace cc {
 	
 	int32_t strToInt32(const char * nValue)
 	{

@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #endif
 
-namespace std {
+namespace cc {
 	
 	int32_t crc32Value(const char * nValue, int32_t nLength)
 	{

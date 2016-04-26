@@ -1,7 +1,7 @@
 #include "../../Include.hpp"
 
-namespace std {
-		
+namespace cc {
+	
 	ConfigEngine& ConfigEngine::instance()
 	{
 		return mConfigEngine;

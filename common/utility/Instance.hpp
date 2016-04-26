@@ -1,6 +1,6 @@
 #pragma once
 
-namespace std {
+namespace cc {
 	
 	class Instance : noncopyable
 	{
@@ -17,5 +17,5 @@ namespace std {
 			nValue = new T();
 		}
 	};
-
+	
 }

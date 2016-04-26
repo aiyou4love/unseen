@@ -1,6 +1,6 @@
 #include "../../Include.hpp"
 
-namespace std {
+namespace cc {
 	
 	string stringTrim(const string& nValue, const string& nTrim)
 	{

@@ -1,6 +1,6 @@
 #include "../../Include.hpp"
 
-namespace std {
+namespace cc {
 	
 	
 	void Value::runFormat(boost::format& nFormat, int8_t nIndex)

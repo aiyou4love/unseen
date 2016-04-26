@@ -1,6 +1,6 @@
 #include "../../Include.hpp"
 
-namespace std {
+namespace cc {
 	
 	void BinWriter::runNumber(string& nValue, const char * nName)
 	{

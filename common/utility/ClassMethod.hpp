@@ -1,6 +1,6 @@
 #pragma once
 
-namespace std {
+namespace cc {
 	
 	extern int32_t crc32Value(const char * nValue, int32_t nLength);
 	

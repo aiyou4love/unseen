@@ -1,6 +1,6 @@
 #pragma once
 
-namespace std {
+namespace cc {
 	
 	extern int32_t strToInt32(const char * nValue);
 	extern string int32ToStr(int32_t nValue);

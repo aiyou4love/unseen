@@ -1,20 +1,30 @@
 #pragma once
 
-namespace std {
+namespace cc {
 	
 	class AutoupEngine : noncopyable
 	{
 	public:
-		static AutoupEngine& instance();
+		bool runAutoup();
+		
+		template<class __t>
+		void headSerialize(__t& nSerialize)
+		{
+			nSerialize.runNumber(mAgentName, "agentName");
+			nSerialize.runNumber(mUpdateUrl, "updateUrl");
+		}
+		const char * streamName();
+		const char * streamUrl();
 		
 		AutoupEngine();
 		~AutoupEngine();
 		
 	private:
-		string mUpdateUrl;
-		string mDownUrl;
+		size_t curlWriteData(void * nPtr, size_t nSize, size_t nMemb, void * nStream);
 		
-		static AutoupEngine mAutoupEngine;
+	private:
+		string mAgentName;
+		string mUpdateUrl;
 	};
 	
 }

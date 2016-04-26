@@ -1,6 +1,6 @@
 #pragma once
 
-namespace std {
+namespace cc {
 	
 	class ConfigEngine : noncopyable
 	{
@@ -8,8 +8,9 @@ namespace std {
 		template <class T>
 		void runConfig(T nClass)
 		{
+			string path_ = mAsset + nClass->streamUrl();
 			JsonReader jsonReader_;
-			jsonReader_.loadFile(nClass->streamUrl());
+			jsonReader_.loadFile(path_.c_str());
 			jsonReader_.selectStream(nClass->streamName());
 			IoReader<JsonReader> ioReader(jsonReader_);
 			nClass->headSerialize(ioReader);
@@ -21,6 +22,8 @@ namespace std {
 		~ConfigEngine();
 		
 	private:
+		string mAsset;
+		
 		static ConfigEngine mConfigEngine;
 	};
 	
