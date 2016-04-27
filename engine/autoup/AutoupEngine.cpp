@@ -16,10 +16,10 @@ namespace cc {
 		
 		string value_("");
 		
-		CURL* curl_ = curl_easy_init();
+		CURL * curl_ = curl_easy_init();
 		
 		curl_easy_setopt(curl_, CURLOPT_URL, mUpdateUrl.c_str());
-		curl_easy_setopt(curl_, CURLOPT_TIMEOUT, 15);
+		curl_easy_setopt(curl_, CURLOPT_TIMEOUT, mTimeout);
 		curl_easy_setopt(curl_, CURLOPT_WRITEFUNCTION, curlWriteData);
 		curl_easy_setopt(curl_, CURLOPT_WRITEDATA, value_);
 		
@@ -45,6 +45,8 @@ namespace cc {
 	AutoupEngine::AutoupEngine()
 		: mAgentName("")
 		, mUpdateUrl("")
+		, mVersionNo(0)
+		, mTimeout(10)
 	{
 	}
 	
@@ -52,6 +54,8 @@ namespace cc {
 	{
 		mAgentName = "";
 		mUpdateUrl = "";
+		mVersionNo = 0;
+		mTimeout = 10;
 	}
 	
 }
