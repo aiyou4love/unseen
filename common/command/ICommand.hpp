@@ -2,17 +2,10 @@
 
 namespace cc {
 	
-	class ICommand
+	class ICommand : noncopyable
 	{
 	public:
 		virtual void runCommand() = 0;
-		
-		ICommand();
-		~ICommand();
-		
-	private:
-		int32_t mDoingId;
-		Value 
 	};
 	
 }

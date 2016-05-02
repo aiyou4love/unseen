@@ -2,34 +2,51 @@
 
 namespace cc {
 	
-	size_t AutoupEngine::curlWriteData(void * nPtr, size_t nSize, size_t nMemb, void * nStream)
-	{
-		string * value_ = (string *)nStream;
-		value_->append((const char *)nPtr);
-		return (nSize * nMemb);
-	}
-	
 	bool AutoupEngine::runAutoup()
 	{
 		ConfigEngine& configEngine_ = ConfigEngine::instance();
-		configEngine_->runConfig<AutoupEngine *>(this);
+		configEngine_->runConfig<AutoupEngine *>(this, streamUrl(), streamName());
 		
-		string value_("");
-		
-		CURL * curl_ = curl_easy_init();
-		
-		curl_easy_setopt(curl_, CURLOPT_URL, mUpdateUrl.c_str());
-		curl_easy_setopt(curl_, CURLOPT_TIMEOUT, mTimeout);
-		curl_easy_setopt(curl_, CURLOPT_WRITEFUNCTION, curlWriteData);
-		curl_easy_setopt(curl_, CURLOPT_WRITEDATA, value_);
-		
-		CURLcode curlCode_ = curl_easy_perform(curl_);
-		curl_easy_cleanup(curl_);
-		if(CURLE_OK != curlCode_) {
-			LOGERROR("[%s]%s", __METHOD__, curl_easy_strerror(curlCode_));
+		boost::format format_(mUpdateUrl);
+		format_ % mAgentName;
+		format_ % mVersionNo;
+		HttpCurl httpCurl_;
+		JsonCurl jsonCurl_;
+		httpCurl_.runValueCurl(&jsonCurl_);
+		httpCurl_.runInit(format_.str());
+		httpCurl_.runTimeout(mTimeout);
+		if (!httpCurl_.runPerform()) {
 			return false;
 		}
+		jsonCurl_.runClass<AutoupEngine *>(this, updateName());
 		
+		if ( mVersionNo != mUpdateNo ) {
+			return false;
+		}
+		List<AutoupItemPtr>::iterator it = mAutoupItems.begin();
+		for ( ; it != mAutoupItems.end(); ++it ) {
+			AutoupItemPtr& autoupItem_ = (*it);
+			if ( !this->runAutoItem(autoupItem_) ) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	bool AutoupEngine::runAutoItem(AutoupItemPtr& nAutoupItem)
+	{
+		const char * updateUrl_= nAutoupItem->getDownloadUrl();
+		const char * packetName_= nAutoupItem->getPacketName();
+		
+		HttpCurl httpCurl_;
+		FileCurl fileCurl_;
+		httpCurl_.runValueCurl(&fileCurl_);
+		httpCurl_.runInit(updateUrl_);
+		httpCurl_.runTimeout(mTimeout);
+		if (!httpCurl_.runPerform()) {
+			return false;
+		}
+		return true;
 	}
 	
 	const char * AutoupEngine::streamName()
@@ -42,20 +59,30 @@ namespace cc {
 		return "autoupEngine.json";
 	}
 	
+	const char * AutoupEngine::updateName()
+	{
+		return "updateEngine";
+	}
+	
 	AutoupEngine::AutoupEngine()
 		: mAgentName("")
 		, mUpdateUrl("")
 		, mVersionNo(0)
 		, mTimeout(10)
+		, mUpdateNo(0)
 	{
+		mAutoupItems.clear();
 	}
 	
 	AutoupEngine::~AutoupEngine()
 	{
+		mAutoupItems.clear();
+		
 		mAgentName = "";
 		mUpdateUrl = "";
 		mVersionNo = 0;
 		mTimeout = 10;
+		mUpdateNo = 0;
 	}
 	
 }

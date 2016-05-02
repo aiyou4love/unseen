@@ -1,6 +1,17 @@
 #pragma once
 
 namespace cc {
+		
+	void BaseCurl::runValueCurl(ValueCurl * nValueCurl)
+	{
+		curl_easy_setopt(mHandle, CURLOPT_WRITEFUNCTION, nValueCurl->getgetCurlFun());
+		curl_easy_setopt(mHandle, CURLOPT_WRITEDATA, nValueCurl->getCurlValue());
+	}
+	
+	void BaseCurl::runDebugInfo()
+	{
+		curl_easy_setopt(mHandle, CURLOPT_VERBOSE, 1L);
+	}
 	
 	void BaseCurl::runInit(const char * nUrl)
 	{

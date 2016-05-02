@@ -5,17 +5,33 @@ namespace cc {
 	class AutoupItem : noncopyable
 	{
 	public:
-		void logError(const char * nValue, ...);
-		void logInfo(const char * nValue, ...);
-		void logWarn(const char * nValue, ...);
+		bool runUncompress();
+		bool runDownload();
+		bool isUpdate();
 		
-		static LogEngine& instance();
+		const char * getDownloadUrl();
+		const char * getPacketName();
+		const char * getUpdateName();
+		int16_t getUpdateNo();
+		
+		template<class T>
+		void serialize(T nSerialize, int8_t nCount)
+		{
+			nSerialize->serialize(mUpdateNo, "mUpdateNo");
+			nSerialize->serialize(mUpdateName, "mUpdateName");
+			nSerialize->serialize(mPacketName, "mPacketName");
+			nSerialize->serialize(mDownloadUrl, "mDownloadUrl");
+		}
 		
 		AutoupItem();
 		~AutoupItem();
 		
 	private:
-		static LogEngine mLogEngine;
+		string mDownloadUrl;
+		string mPacketName;
+		string mUpdateName;
+		int16_t mUpdateNo;
 	};
+	typedef shared_ptr<AutoupItem> AutoupItemPtr;
 	
 }

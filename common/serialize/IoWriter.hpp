@@ -494,10 +494,9 @@ namespace cc {
 			}
 		}
 		
-		template<typename T>
-		void selectStream(T& nStream)
+		void selectStream(const char * nStreamName)
 		{
-			mArchive.selectStream(nStream->streamName());
+			mArchive.selectStream(nStreamName);
 		}
 		
 		IoWriter(A& nArchive)			: mArchive(nArchive)

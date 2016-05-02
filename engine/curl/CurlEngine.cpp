@@ -2,10 +2,14 @@
 
 namespace cc {
 	
-	class ICommand
+	CurlEngine::CurlEngine()
 	{
-	public:
-		virtual void runCommand() = 0;
-	};
+		
+	}
+	
+	CurlEngine::~CurlEngine()
+	{
+		
+	}
 	
 }

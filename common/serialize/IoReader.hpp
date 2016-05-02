@@ -37,6 +37,30 @@ namespace cc {
 			}
 		}
 		
+		template <typename T0, typename T1>
+		void runKeyNumbers(map<T0, T1>& nValue, const char * nNames, const char * nName)
+		{
+			if ( mArchive.isText() ) {
+				mArchive.runPush(nNames);
+				T1 value_ = defaultValue<T1>();
+				bool result_ = mArchive.runChild(nName);
+				while ( result_ ) {
+					mArchive.runNumbers(value_, nName);
+					nValue.push_back(value_);
+					value_ = defaultValue<T1>();
+					result_ = mArchive.runNext(nName);
+				}
+				mArchive.runPop(nNames);
+			} else {
+				int16_t count_ = 0;
+				mArchive.runNumber(count_, nName);
+				for ( int16_t i = 0; i < count_; ++i ) {
+					T1 value_ = defaultValue<T1>();
+					mArchive.runNumber(value_, nName);
+					nValue.push_back(value_);
+				}
+			}
+		}
 		template <typename T>
 		void runNumberCount(T& nValue, const char * nName, int8_t nCount)
 		{
@@ -513,14 +537,13 @@ namespace cc {
 			}
 		}
 		
-		template<typename T>
-		void selectStream(T& nStream)
+		void selectStream(const char * nStreamName)
 		{
-			mArchive.selectStream(nStream->streamName());
+			mArchive.selectStream(nStreamName);
 		}
 		
 		IoReader(A& nArchive)
-		 : mArchive(nArchive)
+			: mArchive(nArchive)
 		{
 		}
 		
