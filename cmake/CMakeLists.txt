@@ -5,10 +5,15 @@ project(${__PROJECT__})
 string(TOUPPER ${__PROJECT__} __PROJNAME__)
 add_definitions(-D__${__PROJNAME__}__)
 ##############################################################
-include_directories( $ENV{BOOST_ROOT} )
-##############################################################
 set( ROOT_PATH ${CMAKE_SOURCE_DIR}/.. )
 set( SRC_PATH ${ROOT_PATH} )
+set( BIN_PATH ${ROOT_PATH}/build/binary )
+set( EXECUTABLE_OUTPUT_PATH ${BIN_PATH} )
+##############################################################
+include_directories( $ENV{BOOST_ROOT} )
+include_directories( $ENV{MARIADB_ROOT}/include )
+##############################################################
+link_directories( $ENV{MARIADB_ROOT}/lib )
 ##############################################################
 add_subdirectory(lua)
 link_directories(${SRC_PATH}/lua)
