@@ -22,7 +22,10 @@ namespace cc {
 		~ConfigEngine();
 		
 	private:
-		string mAsset;
+		string mAssetPath;
+		string mAssetPath;
+		string mAssetPath;
+		string mAssetPath;
 		
 		static ConfigEngine mConfigEngine;
 	};
