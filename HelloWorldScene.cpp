@@ -58,11 +58,10 @@ bool HelloWorld::init()
 	ValueMap valueMap_ = objectGroup_->getObject(pathName_);
 	while (valueMap_.size() > 0)
 	{
-		MovePath movePath_;
-		movePath_.mId = pathIndex_;
-		movePath_.mX = valueMap_["x"].asFloat();
-		movePath_.mY = valueMap_["y"].asFloat();
-		mMovePaths[pathIndex_] = movePath_;
+		Vec2 moveVec2_;
+		moveVec2_.x = valueMap_["x"].asFloat();
+		moveVec2_.y = valueMap_["y"].asFloat();
+		mMovePoints[pathIndex_] = moveVec2_;
 
 		pathIndex_++;
 		memset(pathName_, 0, sizeof(pathName_));
@@ -70,26 +69,33 @@ bool HelloWorld::init()
 		valueMap_ = objectGroup_->getObject(pathName_);
 	}
 	Vector<SpriteFrame *> spriteFrames_;
-	SpriteFrame * bossframe1_ = spriteFrameCache_->getSpriteFrameByName("fly_yellow01.png");
-	SpriteFrame * bossframe2_ = spriteFrameCache_->getSpriteFrameByName("fly_yellow02.png");
+	SpriteFrame * bossframe1_ = spriteFrameCache_->getSpriteFrameByName("land_pink01.png");
+	SpriteFrame * bossframe2_ = spriteFrameCache_->getSpriteFrameByName("land_pink02.png");
 	spriteFrames_.pushBack(bossframe1_);
 	spriteFrames_.pushBack(bossframe2_);
 
-	Animation * animation_ = Animation::createWithSpriteFrames(spriteFrames_, 0.3f);
-	int speed_ = 3;
+	Animation * animation_ = Animation::createWithSpriteFrames(spriteFrames_, 0.2f);
+	int speed_ = 60;
 
-	for (size_t i = 1; i < mMovePaths.size(); i++)
+	Vector<FiniteTimeAction*> finiteTimeActions_;
+	for (size_t i = 1; i < mMovePoints.size(); i++)
 	{
-
+		float duration_ = mMovePoints[i].distance(mMovePoints[i + 1]);
+		duration_ /= speed_;
+		MoveTo * moveTo_ = MoveTo::create(duration_, mMovePoints[i + 1]);
+		finiteTimeActions_.pushBack(moveTo_);
 	}
+	Animate * animate_ = Animate::create(animation_);
+	Repeat * repeat_ = Repeat::create(animate_, -1);
+	Sequence * sequece_ = Sequence::create(finiteTimeActions_);
+	Spawn * spawn_ = Spawn::create(sequece_, repeat_, nullptr);
 
 	Sprite * bossSprite_ = Sprite::createWithSpriteFrame(bossframe1_);
-	bossSprite_->setPosition(Vec2(mMovePaths[1].mX, mMovePaths[1].mY));
+	bossSprite_->setPosition(mMovePoints[1]);
 	bossSprite_->setAnchorPoint(Vec2(0.f, 0.5f));
 	this->addChild(bossSprite_);
 
-	Animate * animate_ = Animate::create(animation_);
-	bossSprite_->runAction(RepeatForever::create(animate_));
+	bossSprite_->runAction(spawn_);
 
     return true;
 }
