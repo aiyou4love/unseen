@@ -33,6 +33,7 @@ bool HelloWorld::init()
 	spriteFrameCache_->addSpriteFramesWithFile("Themes/Theme1/BG0/BG1-hd.plist");
 	spriteFrameCache_->addSpriteFramesWithFile("Themes/Theme1/BG1/BG-hd.plist");
 	spriteFrameCache_->addSpriteFramesWithFile("Themes/Theme1/Items/Monsters01-hd.plist");
+	spriteFrameCache_->addSpriteFramesWithFile("Themes/Theme1/Items/Monsters02-hd.plist");
 
 	SpriteFrame * bgImage_ = spriteFrameCache_->getSpriteFrameByName("BG1.png");
 	Sprite * bgSprite_ = Sprite::createWithSpriteFrame(bgImage_);
@@ -51,7 +52,7 @@ bool HelloWorld::init()
 
 	int pathIndex_ = 1;
 	char pathName_[20];
-	
+
 	memset(pathName_, 0, sizeof(pathName_));
 	sprintf(pathName_, "PT%i", pathIndex_);
 	ValueMap valueMap_ = objectGroup_->getObject(pathName_);
@@ -68,6 +69,28 @@ bool HelloWorld::init()
 		sprintf(pathName_, "PT%i", pathIndex_);
 		valueMap_ = objectGroup_->getObject(pathName_);
 	}
+	Vector<SpriteFrame *> spriteFrames_;
+	SpriteFrame * bossframe1_ = spriteFrameCache_->getSpriteFrameByName("fly_yellow01.png");
+	SpriteFrame * bossframe2_ = spriteFrameCache_->getSpriteFrameByName("fly_yellow02.png");
+	spriteFrames_.pushBack(bossframe1_);
+	spriteFrames_.pushBack(bossframe2_);
+
+	Animation * animation_ = Animation::createWithSpriteFrames(spriteFrames_, 0.3f);
+	int speed_ = 3;
+
+	for (size_t i = 1; i < mMovePaths.size(); i++)
+	{
+
+	}
+
+	Sprite * bossSprite_ = Sprite::createWithSpriteFrame(bossframe1_);
+	bossSprite_->setPosition(Vec2(mMovePaths[1].mX, mMovePaths[1].mY));
+	bossSprite_->setAnchorPoint(Vec2(0.f, 0.5f));
+	this->addChild(bossSprite_);
+
+	Animate * animate_ = Animate::create(animation_);
+	bossSprite_->runAction(RepeatForever::create(animate_));
+
     return true;
 }
 
