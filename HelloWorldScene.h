@@ -5,19 +5,14 @@
 
 using namespace cocos2d;
 
-struct MovePath
-{
-	int mId;
-	float mX;
-	float mY;
-};
-
 class HelloWorld : public cocos2d::Layer
 {
 public:
 	bool onTouchBegan(Touch *touch, Event *unused_event);
 	void onTouchMoved(Touch *touch, Event *unused_event);
 	void onTouchEnded(Touch *touch, Event *unused_event);
+
+	void update(float dt);
 
 public:
     static cocos2d::Scene* createScene();
@@ -26,8 +21,10 @@ public:
     CREATE_FUNC(HelloWorld);
 
 private:
-	std::map<int, MovePath> mMovePaths;
+	std::map<int, Vec2> mMovePoints;
 	TMXTiledMap * mTiledMap;
+	Sprite * mBossSprite;
+	Sprite * mTowerSprite;
 };
 
 #endif // __HELLOWORLD_SCENE_H__

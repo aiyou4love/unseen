@@ -34,6 +34,7 @@ bool HelloWorld::init()
 	spriteFrameCache_->addSpriteFramesWithFile("Themes/Theme1/BG1/BG-hd.plist");
 	spriteFrameCache_->addSpriteFramesWithFile("Themes/Theme1/Items/Monsters01-hd.plist");
 	spriteFrameCache_->addSpriteFramesWithFile("Themes/Theme1/Items/Monsters02-hd.plist");
+	spriteFrameCache_->addSpriteFramesWithFile("Themes/Towers/TBottle-hd.plist");
 
 	SpriteFrame * bgImage_ = spriteFrameCache_->getSpriteFrameByName("BG1.png");
 	Sprite * bgSprite_ = Sprite::createWithSpriteFrame(bgImage_);
@@ -90,14 +91,60 @@ bool HelloWorld::init()
 	Sequence * sequece_ = Sequence::create(finiteTimeActions_);
 	Spawn * spawn_ = Spawn::create(sequece_, repeat_, nullptr);
 
-	Sprite * bossSprite_ = Sprite::createWithSpriteFrame(bossframe1_);
-	bossSprite_->setPosition(mMovePoints[1]);
-	bossSprite_->setAnchorPoint(Vec2(0.f, 0.5f));
-	this->addChild(bossSprite_);
+	Sprite * mBossSprite = Sprite::createWithSpriteFrame(bossframe1_);
+	mBossSprite->setPosition(mMovePoints[1]);
+	mBossSprite->setAnchorPoint(Vec2(0.f, 0.5f));
+	this->addChild(mBossSprite);
 
-	bossSprite_->runAction(spawn_);
+	mBossSprite->runAction(spawn_);
+	
+	Vector<SpriteFrame *> towerFrames_;
+	SpriteFrame * towerFrame1_ = spriteFrameCache_->getSpriteFrameByName("Bottle11.png");
+	SpriteFrame * towerFrame2_ = spriteFrameCache_->getSpriteFrameByName("Bottle12.png");
+	SpriteFrame * towerFrame3_ = spriteFrameCache_->getSpriteFrameByName("Bottle13.png");
+	towerFrames_.pushBack(towerFrame1_);
+	towerFrames_.pushBack(towerFrame2_);
+	towerFrames_.pushBack(towerFrame3_);
+
+	Animation * towerAnimation_ = Animation::createWithSpriteFrames(towerFrames_, 0.2f);
+	Animate * towerAnimate_ = Animate::create(towerAnimation_);
+
+	Sprite * mTowerSprite = Sprite::createWithSpriteFrame(towerFrame1_);
+	mTowerSprite->setPosition(Vec2(200.f, 300.f));
+	this->addChild(mTowerSprite);
+
+	mTowerSprite->runAction(CCRepeatForever::create(towerAnimate_));
+
+	Vector<SpriteFrame *> bulletFrames_;
+	SpriteFrame * bulletFrame1_ = spriteFrameCache_->getSpriteFrameByName("PBottle11.png");
+	SpriteFrame * bulletFrame2_ = spriteFrameCache_->getSpriteFrameByName("PBottle12.png");
+	SpriteFrame * bulletFrame3_ = spriteFrameCache_->getSpriteFrameByName("PBottle13.png");
+	bulletFrames_.pushBack(bulletFrame1_);
+	bulletFrames_.pushBack(bulletFrame2_);
+	bulletFrames_.pushBack(bulletFrame3_);
+
+	Animation * bulletAnimation_ = Animation::createWithSpriteFrames(bulletFrames_, 0.2f);
+	Animate * bulletAnimate_ = Animate::create(bulletAnimation_);
+
+	Sprite * bulletSprite_ = Sprite::createWithSpriteFrame(bulletFrame1_);
+	bulletSprite_->setPosition(Vec2(200.f, 350.f));
+	this->addChild(bulletSprite_);
+
+	bulletSprite_->runAction(CCRepeatForever::create(bulletAnimate_));
+
+	scheduleUpdate();
 
     return true;
+}
+http://blog.csdn.net/shun_fzll/article/details/34430045
+void HelloWorld::update(float dt) 
+{
+	const Vec2& bossPoint_ = mBossSprite->getPosition();
+	const Vec2& towerPoint_ = mTowerSprite->getPosition();
+	float distance_ = bossPoint_.distance(towerPoint_);
+	if (distance_ > 150) return;
+	Vec2 vector_ = bossPoint_ - towerPoint_;
+	vector_.normalize();
 }
 
 bool HelloWorld::onTouchBegan(Touch *touch, Event *unused_event)
