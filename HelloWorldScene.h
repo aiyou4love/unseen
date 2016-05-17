@@ -23,8 +23,8 @@ public:
 private:
 	std::map<int, Vec2> mMovePoints;
 	TMXTiledMap * mTiledMap;
-	Sprite * mBossSprite;
 	Sprite * mTowerSprite;
+	Sprite * mBossSprite;
 };
 
 #endif // __HELLOWORLD_SCENE_H__
